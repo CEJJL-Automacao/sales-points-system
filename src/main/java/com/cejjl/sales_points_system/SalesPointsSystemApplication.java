@@ -11,4 +11,5 @@ public class SalesPointsSystemApplication {
 	}
     //teste
     //teste 2
+    //teste 3
 }
