@@ -10,4 +10,5 @@ public class SalesPointsSystemApplication {
 		SpringApplication.run(SalesPointsSystemApplication.class, args);
 	}
     //teste
+    //teste 2
 }
