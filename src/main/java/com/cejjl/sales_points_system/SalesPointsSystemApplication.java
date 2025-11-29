@@ -9,5 +9,5 @@ public class SalesPointsSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SalesPointsSystemApplication.class, args);
 	}
-
+    //teste
 }
