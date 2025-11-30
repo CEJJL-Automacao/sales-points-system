@@ -2,13 +2,13 @@ package com.cejjl.sales_points_system.models.funcionario;
 
 
 import com.cejjl.sales_points_system.models.funcionario.Enums.CargoEnum;
+import com.cejjl.sales_points_system.models.funcionario.Enums.StatusEnum;
 import com.cejjl.sales_points_system.models.posto.Posto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class Funcionario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(nullable = false)
@@ -29,21 +29,23 @@ public class Funcionario {
     @Column(nullable = false)
     private String nome;
 
-    @Value(value = "true")
-    private boolean status;
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private StatusEnum status;
+
     @CreationTimestamp
-    private LocalDateTime criado_em;
+    @Column(name = "criado_em", nullable = false, updatable = false)
+    private LocalDateTime criadoEm;
 
-    @Column
     @UpdateTimestamp
-    private LocalDateTime atualizado_em;
+    @Column(name = "atualizado_em")
+    private LocalDateTime atualizadoEm;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CargoEnum cargo;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_posto", nullable = false)
-    private Posto id_posto;
+    private Posto posto;
 }
