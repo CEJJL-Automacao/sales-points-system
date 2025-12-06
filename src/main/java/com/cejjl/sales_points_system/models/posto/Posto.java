@@ -1,5 +1,6 @@
 package com.cejjl.sales_points_system.models.posto;
 
+import com.cejjl.sales_points_system.models.funcionario.Enums.StatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +23,9 @@ public class Posto {
     @Column(nullable = false)
     private String nome;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private boolean ativo = true;
+    private StatusEnum isAtivo = StatusEnum.ATIVO;
 
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
