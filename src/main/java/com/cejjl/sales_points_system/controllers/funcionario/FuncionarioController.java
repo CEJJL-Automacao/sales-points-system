@@ -17,7 +17,7 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<Funcionario> criar(@RequestBody Funcionario funcionario) { // Mudança 3: @RequestBody
+    public ResponseEntity<Funcionario> criar(@RequestBody Funcionario funcionario) {
         Funcionario novoFuncionario = funcionarioService.criar(funcionario);
 
         return ResponseEntity.ok(novoFuncionario);
