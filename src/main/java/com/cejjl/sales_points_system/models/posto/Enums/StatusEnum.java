@@ -1,4 +1,4 @@
-package com.cejjl.sales_points_system.models.funcionario.Enums;
+package com.cejjl.sales_points_system.models.posto.Enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,10 +8,7 @@ import lombok.Getter;
 public enum StatusEnum {
 
     ATIVO("Ativo"),
-    INATIVO("Inativo"),
-    FERIAS("Em Férias"),
-    AFASTADO("Afastado"),
-    DESLIGADO("Desligado");
+    INATIVO("Inativo");
 
     private final String descricao;
 }
