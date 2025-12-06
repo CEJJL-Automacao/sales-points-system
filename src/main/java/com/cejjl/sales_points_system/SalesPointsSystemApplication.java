@@ -6,10 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SalesPointsSystemApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SalesPointsSystemApplication.class, args);
-	}
-    //teste
-    //teste 2
-    //teste 3
+    public static void main(String[] args) {
+        SpringApplication.run(SalesPointsSystemApplication.class, args);
+    }
 }
