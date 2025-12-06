@@ -44,7 +44,7 @@ public class PostoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-        funcionarioService.deletar(id);
+        postoService.deletar(id);
 
         return ResponseEntity.noContent().build();
     }
