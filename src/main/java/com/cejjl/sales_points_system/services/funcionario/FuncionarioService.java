@@ -2,9 +2,11 @@ package com.cejjl.sales_points_system.services.funcionario;
 
 import com.cejjl.sales_points_system.models.funcionario.Enums.StatusEnum;
 import com.cejjl.sales_points_system.models.funcionario.Funcionario;
+import com.cejjl.sales_points_system.models.posto.Posto;
 import com.cejjl.sales_points_system.repositories.funcionario.FuncionarioRepository;
 import com.cejjl.sales_points_system.repositories.posto.PostoRepository;
 import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +53,17 @@ public class FuncionarioService {
     public Funcionario atualizar(UUID id, Funcionario dadosAtualizados) {
         Funcionario funcionarioExistente = buscarPorId(id);
 
-        funcionarioExistente.setNome(dadosAtualizados.getNome());
-        funcionarioExistente.setCargo(dadosAtualizados.getCargo());
-        funcionarioExistente.setStatus(dadosAtualizados.getStatus());
+        Funcionario novoFuncionario = Funcionario.builder()
+                .id(funcionarioExistente.getId())
+                .matricula(dadosAtualizados.getMatricula() == null ? funcionarioExistente.getMatricula() : dadosAtualizados.getMatricula())
+                .nome(dadosAtualizados.getNome() == null ? funcionarioExistente.getNome() : dadosAtualizados.getNome())
+                .status(dadosAtualizados.getStatus() == null ? funcionarioExistente.getStatus() : dadosAtualizados.getStatus())
+                .criadoEm(funcionarioExistente.getCriadoEm())
+                .cargo(dadosAtualizados.getCargo() == null ? funcionarioExistente.getCargo() : dadosAtualizados.getCargo())
+                .posto(dadosAtualizados.getPosto() == null ? funcionarioExistente.getPosto() : dadosAtualizados.getPosto())
+                .build();
 
-        return funcionarioRepository.save(funcionarioExistente);
+        return funcionarioRepository.save(novoFuncionario);
     }
 
     public void deletar(UUID id) {

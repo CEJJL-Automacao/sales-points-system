@@ -4,9 +4,9 @@ package com.cejjl.sales_points_system.models.funcionario;
 import com.cejjl.sales_points_system.models.funcionario.Enums.CargoEnum;
 import com.cejjl.sales_points_system.models.funcionario.Enums.StatusEnum;
 import com.cejjl.sales_points_system.models.posto.Posto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,7 +16,11 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "funcionario")
+@JsonIgnoreProperties("hibernateLazyInitializer")
 public class Funcionario {
 
     @Id
