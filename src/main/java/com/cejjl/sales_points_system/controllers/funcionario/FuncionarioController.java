@@ -1,8 +1,10 @@
 package com.cejjl.sales_points_system.controllers.funcionario;
 
+import com.cejjl.sales_points_system.dtos.request.FuncionarioRequest;
 import com.cejjl.sales_points_system.models.funcionario.Funcionario;
 import com.cejjl.sales_points_system.services.funcionario.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,8 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<Funcionario> criar(@RequestBody Funcionario funcionario) {
-        Funcionario novoFuncionario = funcionarioService.criar(funcionario);
-
-        return ResponseEntity.ok(novoFuncionario);
+    public ResponseEntity<Funcionario> criar(@RequestBody FuncionarioRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.criar(request));
     }
 
     @GetMapping
@@ -34,8 +34,8 @@ public class FuncionarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Funcionario> atualizar(@PathVariable UUID id, @RequestBody Funcionario funcionario) {
-        return ResponseEntity.ok(funcionarioService.atualizar(id, funcionario));
+    public ResponseEntity<Funcionario> atualizar(@PathVariable UUID id, @RequestBody FuncionarioRequest request) {
+        return ResponseEntity.ok(funcionarioService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
