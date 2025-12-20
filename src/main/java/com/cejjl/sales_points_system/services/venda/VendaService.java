@@ -2,9 +2,10 @@ package com.cejjl.sales_points_system.services.venda;
 
 import com.cejjl.sales_points_system.models.venda.Venda;
 import com.cejjl.sales_points_system.repositories.venda.VendaRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,8 +55,15 @@ public class VendaService {
     @Transactional
     public void deletar(UUID id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Não é possível deletar: Venda inexistente.");
+            throw new RuntimeException("Não é possível deletar: Venda inexistente." +id);
         }
-        repository.deleteById(id);
+
+        try {
+            repository.deleteById(id);
+            repository.flush();
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Erro de integridade: Esta venda possui registros vinculados e não pode ser removida.");
+        }
     }
+
 }
