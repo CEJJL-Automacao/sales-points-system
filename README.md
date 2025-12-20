@@ -8,7 +8,7 @@
 ## 📌 Sobre o Projeto
 API RESTful robusta desenvolvida para o ecossistema de gerenciamento de vendas e bonificações de postos de combustível. O sistema centraliza a lógica de negócios para cálculo de pontuações, rankings de desempenho e administração de funcionários, garantindo integridade e performance.
 
-## � Tecnologias & Ferramentas
+##  Tecnologias & Ferramentas
 - **Core**: Java 21 LTS
 - **Framework**: Spring Boot 3.5.7 (Web, Data JPA, Validation)
 - **Banco de Dados**: PostgreSQL 15
@@ -51,20 +51,12 @@ Com o banco de dados rodando via Docker, você pode iniciar a API Spring Boot.
 
 A aplicação estará disponível em `http://localhost:8080`.
 
-## 📂 Estrutura do Projeto
-```
-src/main/java/com/cejjl/sales_points_system/
-├── controller/    # Camada de API REST
-├── dto/           # Objetos de Transferência de Dados (Requests/Responses)
-├── model/         # Entidades JPA
-├── repository/    # Interfaces de Acesso ao Banco
-├── service/       # Regras de Negócio
-└── ...
-```
-
-## 📸 Screenshots do Frontend
+## 📸 Screenshots do Frontend (em desenvolvimento)
 > A API alimenta as seguintes interfaces (Front-end):
 
-*(Espaço reservado para imagens)*
-![Dashboard]()
-![Ranking]()
+
+![Dashboard Geral](https://i.imgur.com/M0wD25w.jpeg)
+![Gestão de Vendas](https://i.imgur.com/OUP4kVe.jpeg)
+![Relatório de Ranking](https://i.imgur.com/rR6cuiS.jpeg)
+![Cadastro de Postos](https://i.imgur.com/B1H0kiB.jpeg)
+![Lista de Funcionários](https://i.imgur.com/487YzTn.jpeg)
