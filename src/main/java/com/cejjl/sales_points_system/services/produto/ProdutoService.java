@@ -7,7 +7,9 @@ import com.cejjl.sales_points_system.repositories.produto.GrupoRepository;
 import com.cejjl.sales_points_system.repositories.produto.ProdutoRepository;
 import com.cejjl.sales_points_system.services.produto.dto.ProdutoDtoRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final GrupoRepository grupoRepository;
 
+    @Transactional
     public Produto adicionarProduto(ProdutoDtoRequest produtoDtoRequest) {
 
         Grupo grupo = buscarGrupoPorId(produtoDtoRequest.grupoId());
@@ -32,16 +35,19 @@ public class ProdutoService {
         }
     }
 
+    @Transactional
     public List<Produto> buscarTodosProdutos(){
         return produtoRepository.findAll();
     }
 
+    @Transactional
     public List<Produto> buscarTodosProdutosPorIdGrupo(UUID grupoId){
 
         return produtoRepository.findByGrupoId(grupoId);
 
     }
 
+    @Transactional
     public Produto buscarProdutoPorId(UUID id){
 
         return produtoRepository.findById(id)
@@ -49,6 +55,7 @@ public class ProdutoService {
 
     }
 
+    @Transactional
     public Produto alterarProdutoPorId(UUID id, ProdutoDtoRequest produtoDtoRequest){
 
         Produto produto = buscarProdutoPorId(id);
@@ -62,11 +69,18 @@ public class ProdutoService {
         return produtoRepository.save(novoProduto);
     }
 
-    public void removerProduto(UUID id){
+    @Transactional
+    public void removerProduto(UUID id) {
+        if (!produtoRepository.existsById(id)) {
+            throw new RuntimeException("Produto não encontrado com o ID: " + id);
+        }
 
-        Produto produto = buscarProdutoPorId(id);
-        produtoRepository.delete(produto);
-
+        try {
+            produtoRepository.deleteById(id);
+            produtoRepository.flush();
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Não é possível remover o produto: ele possui registros vinculados no sistema.");
+        }
     }
 
     private Grupo buscarGrupoPorId(UUID id){
