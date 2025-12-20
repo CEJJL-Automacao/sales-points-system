@@ -1,5 +1,6 @@
 package com.cejjl.sales_points_system.controllers.venda;
 
+import com.cejjl.sales_points_system.dtos.request.VendaRequest;
 import com.cejjl.sales_points_system.models.venda.Venda;
 import com.cejjl.sales_points_system.services.venda.VendaService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class VendaController {
     private final VendaService service;
 
     @PostMapping
-    public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.adicionar(venda));
+    public ResponseEntity<Venda> criar(@RequestBody VendaRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.adicionar(request));
     }
 
     @GetMapping
@@ -33,8 +34,8 @@ public class VendaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venda> atualizar(@PathVariable UUID id, @RequestBody Venda venda) {
-        return ResponseEntity.ok(service.atualizar(id, venda));
+    public ResponseEntity<Venda> atualizar(@PathVariable UUID id, @RequestBody VendaRequest request) {
+        return ResponseEntity.ok(service.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
@@ -42,5 +43,4 @@ public class VendaController {
         service.deletar(id);
         return ResponseEntity.noContent().build();
     }
-
 }
