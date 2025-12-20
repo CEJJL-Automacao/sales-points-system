@@ -1,11 +1,10 @@
 package com.cejjl.sales_points_system.services.produto;
 
-
+import com.cejjl.sales_points_system.dtos.request.ProdutoRequest;
 import com.cejjl.sales_points_system.models.produto.Grupo;
 import com.cejjl.sales_points_system.models.produto.Produto;
 import com.cejjl.sales_points_system.repositories.produto.GrupoRepository;
 import com.cejjl.sales_points_system.repositories.produto.ProdutoRepository;
-import com.cejjl.sales_points_system.services.produto.dto.ProdutoDtoRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -22,51 +21,43 @@ public class ProdutoService {
     private final GrupoRepository grupoRepository;
 
     @Transactional
-    public Produto adicionarProduto(ProdutoDtoRequest produtoDtoRequest) {
-
-        Grupo grupo = buscarGrupoPorId(produtoDtoRequest.grupoId());
-
-        Produto produto = new Produto(null, produtoDtoRequest.nome(),grupo);
+    public Produto adicionarProduto(ProdutoRequest request) {
+        Grupo grupo = buscarGrupoPorId(request.grupoId());
+        Produto produto = new Produto(null, request.nome(), grupo);
 
         try {
             return produtoRepository.save(produto);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao tentar salvar produto no banco.");
         }
     }
 
     @Transactional
-    public List<Produto> buscarTodosProdutos(){
+    public List<Produto> buscarTodosProdutos() {
         return produtoRepository.findAll();
     }
 
     @Transactional
-    public List<Produto> buscarTodosProdutosPorIdGrupo(UUID grupoId){
-
+    public List<Produto> buscarTodosProdutosPorIdGrupo(UUID grupoId) {
         return produtoRepository.findByGrupoId(grupoId);
-
     }
 
     @Transactional
-    public Produto buscarProdutoPorId(UUID id){
-
+    public Produto buscarProdutoPorId(UUID id) {
         return produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-
     }
 
     @Transactional
-    public Produto alterarProdutoPorId(UUID id, ProdutoDtoRequest produtoDtoRequest){
-
+    public Produto alterarProdutoPorId(UUID id, ProdutoRequest request) {
         Produto produto = buscarProdutoPorId(id);
 
-        Produto novoProduto = Produto.builder()
-                .id(produto.getId())
-                .nome(produtoDtoRequest.nome() == null ? produto.getNome() : produtoDtoRequest.nome())
-                .grupo(produtoDtoRequest.grupoId() == null ? produto.getGrupo() : buscarGrupoPorId(produtoDtoRequest.grupoId()))
-                .build();
+        if (request.nome() != null)
+            produto.setNome(request.nome());
+        if (request.grupoId() != null)
+            produto.setGrupo(buscarGrupoPorId(request.grupoId()));
 
-        return produtoRepository.save(novoProduto);
+        return produtoRepository.save(produto);
     }
 
     @Transactional
@@ -83,7 +74,7 @@ public class ProdutoService {
         }
     }
 
-    private Grupo buscarGrupoPorId(UUID id){
+    private Grupo buscarGrupoPorId(UUID id) {
         return grupoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Grupo não encontrado"));
     }
