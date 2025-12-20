@@ -1,7 +1,9 @@
 package com.cejjl.sales_points_system.services.funcionario;
 
+import com.cejjl.sales_points_system.dtos.request.FuncionarioRequest;
 import com.cejjl.sales_points_system.models.funcionario.Enums.StatusEnum;
 import com.cejjl.sales_points_system.models.funcionario.Funcionario;
+import com.cejjl.sales_points_system.models.posto.Posto;
 import com.cejjl.sales_points_system.repositories.funcionario.FuncionarioRepository;
 import com.cejjl.sales_points_system.repositories.posto.PostoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +24,20 @@ public class FuncionarioService {
     private PostoRepository postoRepository;
 
     @Transactional
-    public Funcionario criar(Funcionario funcionario) {
-        if (funcionario.getPosto() == null || funcionario.getPosto().getId() == null) {
+    public Funcionario criar(FuncionarioRequest request) {
+        if (request.postoId() == null) {
             throw new IllegalArgumentException("O funcionário precisa estar vinculado a um Posto.");
         }
 
-        var postoReal = postoRepository.findById(funcionario.getPosto().getId())
+        Posto posto = postoRepository.findById(request.postoId())
                 .orElseThrow(() -> new IllegalArgumentException("Posto não encontrado com este ID."));
 
-        funcionario.setPosto(postoReal);
-
-        if (funcionario.getStatus() == null) {
-            funcionario.setStatus(StatusEnum.ATIVO);
-        }
+        Funcionario funcionario = new Funcionario();
+        funcionario.setMatricula(request.matricula());
+        funcionario.setNome(request.nome());
+        funcionario.setCargo(request.cargo());
+        funcionario.setStatus(request.status() != null ? request.status() : StatusEnum.ATIVO);
+        funcionario.setPosto(posto);
 
         return funcionarioRepository.save(funcionario);
     }
@@ -51,14 +54,17 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public Funcionario atualizar(UUID id, Funcionario dadosAtualizados) {
-        Funcionario funcionarioExistente = buscarPorId(id);
+    public Funcionario atualizar(UUID id, FuncionarioRequest request) {
+        Funcionario funcionario = buscarPorId(id);
 
-        funcionarioExistente.setNome(dadosAtualizados.getNome());
-        funcionarioExistente.setCargo(dadosAtualizados.getCargo());
-        funcionarioExistente.setStatus(dadosAtualizados.getStatus());
+        if (request.nome() != null)
+            funcionario.setNome(request.nome());
+        if (request.cargo() != null)
+            funcionario.setCargo(request.cargo());
+        if (request.status() != null)
+            funcionario.setStatus(request.status());
 
-        return funcionarioRepository.save(funcionarioExistente);
+        return funcionarioRepository.save(funcionario);
     }
 
     @Transactional
