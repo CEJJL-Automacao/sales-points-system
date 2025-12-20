@@ -9,12 +9,11 @@
 API RESTful robusta desenvolvida para o ecossistema de gerenciamento de vendas e bonificações de postos de combustível. O sistema centraliza a lógica de negócios para cálculo de pontuações, rankings de desempenho e administração de funcionários, garantindo integridade e performance.
 
 ##  Tecnologias & Ferramentas
-- **Core**: Java 21 LTS
-- **Framework**: Spring Boot 3.5.7 (Web, Data JPA, Validation)
+- **Core**: Java 21 
+- **Framework**: Spring Boot 3.5.7 
 - **Banco de Dados**: PostgreSQL 15
 - **Containerização**: Docker & Docker Compose
 - **Build**: Maven
-- **Produtividade**: Lombok
 
 ## 🐳 Executando com Docker (Recomendado)
 O projeto inclui um arquivo `docker-compose.yml` pré-configurado para instanciar o banco de dados PostgreSQL em segundos, eliminando a necessidade de instalações locais complexas.
@@ -51,9 +50,96 @@ Com o banco de dados rodando via Docker, você pode iniciar a API Spring Boot.
 
 A aplicação estará disponível em `http://localhost:8080`.
 
-## 📸 Screenshots do Frontend (em desenvolvimento)
-> A API alimenta as seguintes interfaces (Front-end):
+## � Documentação da API
 
+### 🏢 Postos (`/postos`)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/postos` | Cria um novo posto |
+| GET | `/postos` | Lista todos os postos |
+| GET | `/postos/{id}` | Busca posto por ID |
+| PUT | `/postos/{id}` | Atualiza posto existe |
+| DELETE | `/postos/{id}` | Remove um posto |
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "nome": "Posto Central",
+  "isAtivo": "ATIVO" // ou "INATIVO"
+}
+```
+
+### 📦 Grupos de Produtos (`/grupos`)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/grupos` | Cria um novo grupo |
+| GET | `/grupos` | Lista todos os grupos |
+| PUT | `/grupos/{id}` | Atualiza um grupo |
+| DELETE | `/grupos/{id}` | Remove um grupo |
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "nome": "Gasolina Aditivada",
+  "pontos": 10
+}
+```
+
+### 👷 Funcionários (`/funcionarios`)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/funcionarios` | Cadastra um funcionário |
+| GET | `/funcionarios` | Lista todos funcionários |
+| PUT | `/funcionarios/{id}` | Atualiza dados (cargo, status) |
+| DELETE | `/funcionarios/{id}` | Remove funcionário |
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "matricula": 12345,
+  "nome": "João Silva",
+  "cargo": "FRENTISTA", // GERENTE, CAIXA, CHEFE_DE_PISTA...
+  "status": "ATIVO",    // INATIVO, FERIAS, AFASTADO, DESLIGADO
+  "postoId": "uuid-do-posto"
+}
+```
+
+### ⛽ Produtos (`/produtos`)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/produtos` | Cria um produto |
+| GET | `/produtos` | Lista todos produtos |
+| GET | `/produtos/grupo/{id}` | Lista produtos de um grupo |
+| PUT | `/produtos/{id}` | Atualiza produto |
+| DELETE | `/produtos/{id}` | Remove produto |
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "nome": "Shell V-Power",
+  "grupoId": "uuid-do-grupo"
+}
+```
+
+### 💲 Vendas (`/vendas`)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/vendas` | Registra uma nova venda |
+| GET | `/vendas` | Lista todas as vendas |
+| PUT | `/vendas/{id}` | Corrige uma venda |
+| DELETE | `/vendas/{id}` | Cancela uma venda |
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "funcionarioId": "uuid-do-funcionario",
+  "produtoId": "uuid-do-produto",
+  "quantidade": 50 // Litros ou unidades
+}
+```
+
+## �📸 Screenshots do Frontend (em desenvolvimento)
+> Veja de forma mais simples:
 
 ![Dashboard Geral](https://i.imgur.com/M0wD25w.jpeg)
 ![Gestão de Vendas](https://i.imgur.com/OUP4kVe.jpeg)
