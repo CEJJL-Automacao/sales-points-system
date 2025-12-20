@@ -1,7 +1,7 @@
 package com.cejjl.sales_points_system.controllers.posto;
 
+import com.cejjl.sales_points_system.dtos.request.PostoRequest;
 import com.cejjl.sales_points_system.models.posto.Posto;
-import com.cejjl.sales_points_system.services.funcionario.FuncionarioService;
 import com.cejjl.sales_points_system.services.posto.PostoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +17,10 @@ public class PostoController {
 
     @Autowired
     private PostoService postoService;
-    @Autowired
-    private FuncionarioService funcionarioService;
 
     @PostMapping
-    public ResponseEntity<Posto> criar(@RequestBody Posto posto) {
-        Posto novoPosto = postoService.criar(posto);
-
-        return ResponseEntity.ok(novoPosto);
+    public ResponseEntity<Posto> criar(@RequestBody PostoRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(postoService.criar(request));
     }
 
     @GetMapping
@@ -38,14 +34,13 @@ public class PostoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Posto> atualizar(@PathVariable UUID id, @RequestBody Posto posto) {
-        return ResponseEntity.ok(postoService.atualizar(id, posto));
+    public ResponseEntity<Posto> atualizar(@PathVariable UUID id, @RequestBody PostoRequest request) {
+        return ResponseEntity.ok(postoService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         postoService.deletar(id);
-
         return ResponseEntity.noContent().build();
     }
 }
