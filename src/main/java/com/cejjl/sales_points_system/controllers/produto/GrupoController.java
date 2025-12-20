@@ -1,5 +1,6 @@
 package com.cejjl.sales_points_system.controllers.produto;
 
+import com.cejjl.sales_points_system.dtos.request.GrupoRequest;
 import com.cejjl.sales_points_system.models.produto.Grupo;
 import com.cejjl.sales_points_system.services.produto.GrupoService;
 import lombok.AllArgsConstructor;
@@ -18,25 +19,28 @@ public class GrupoController {
     private final GrupoService grupoService;
 
     @PostMapping
-    public ResponseEntity<Grupo> criarGrupo(@RequestBody Grupo grupo){
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(grupoService.adicionarGrupo(grupo));
+    public ResponseEntity<Grupo> criarGrupo(@RequestBody GrupoRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(grupoService.adicionarGrupo(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<Grupo>> buscarTodosGrupos(){
+    public ResponseEntity<List<Grupo>> buscarTodosGrupos() {
         return ResponseEntity.ok(grupoService.buscarTodosGrupos());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Grupo> buscarGrupoPorId(@PathVariable UUID id) {
+        return ResponseEntity.ok(grupoService.buscarGrupoPorId(id));
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity deletarGrupoPorId(@PathVariable UUID id){
+    public ResponseEntity<Void> deletarGrupoPorId(@PathVariable UUID id) {
         grupoService.deletarGrupoPorId(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Grupo> atualizarGrupoPorId(@PathVariable UUID id,@RequestBody Grupo grupo){
-        return ResponseEntity.ok(grupoService.atualizarGrupoPorId(id,grupo));
+    public ResponseEntity<Grupo> atualizarGrupoPorId(@PathVariable UUID id, @RequestBody GrupoRequest request) {
+        return ResponseEntity.ok(grupoService.atualizarGrupoPorId(id, request));
     }
-
 }
