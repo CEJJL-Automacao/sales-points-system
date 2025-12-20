@@ -8,7 +8,16 @@
 ## 📌 Sobre o Projeto
 API RESTful robusta desenvolvida para o ecossistema de gerenciamento de vendas e bonificações de postos de combustível. O sistema centraliza a lógica de negócios para cálculo de pontuações, rankings de desempenho e administração de funcionários, garantindo integridade e performance.
 
-##  Tecnologias & Ferramentas
+## 📸 Screenshots do Frontend (em desenvolvimento)
+> Veja de forma mais simples:
+
+![Dashboard Geral](https://i.imgur.com/M0wD25w.jpeg)
+![Gestão de Vendas](https://i.imgur.com/OUP4kVe.jpeg)
+![Relatório de Ranking](https://i.imgur.com/rR6cuiS.jpeg)
+![Cadastro de Postos](https://i.imgur.com/B1H0kiB.jpeg)
+![Lista de Funcionários](https://i.imgur.com/487YzTn.jpeg)
+
+## 💻 Tecnologias & Ferramentas
 - **Core**: Java 21 
 - **Framework**: Spring Boot 3.5.7 
 - **Banco de Dados**: PostgreSQL 15
@@ -50,7 +59,7 @@ Com o banco de dados rodando via Docker, você pode iniciar a API Spring Boot.
 
 A aplicação estará disponível em `http://localhost:8080`.
 
-## � Documentação da API
+## 📜 Documentação da API
 
 ### 🏢 Postos (`/postos`)
 | Método | Rota | Descrição |
@@ -137,12 +146,3 @@ A aplicação estará disponível em `http://localhost:8080`.
   "quantidade": 50 // Litros ou unidades
 }
 ```
-
-## �📸 Screenshots do Frontend (em desenvolvimento)
-> Veja de forma mais simples:
-
-![Dashboard Geral](https://i.imgur.com/M0wD25w.jpeg)
-![Gestão de Vendas](https://i.imgur.com/OUP4kVe.jpeg)
-![Relatório de Ranking](https://i.imgur.com/rR6cuiS.jpeg)
-![Cadastro de Postos](https://i.imgur.com/B1H0kiB.jpeg)
-![Lista de Funcionários](https://i.imgur.com/487YzTn.jpeg)
